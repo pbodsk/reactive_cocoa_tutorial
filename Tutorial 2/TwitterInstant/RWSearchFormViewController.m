@@ -66,7 +66,7 @@ static NSString * const RWTwitterInstantDomain = @"TwitterInstant";
         self.searchText.backgroundColor = textBackgroundColor;
       }];
     
-    [[[[[[self requestAccessToTwitterSignal]
+    [[[[[[[self requestAccessToTwitterSignal]
      then:^RACSignal *{
          @strongify(self)
          return self.searchText.rac_textSignal;
@@ -75,6 +75,7 @@ static NSString * const RWTwitterInstantDomain = @"TwitterInstant";
          @strongify(self)
          return [self isValidSearchText:inputText];
      }]
+     throttle:0.5]
      flattenMap:^RACStream *(NSString *text) {
          @strongify(self)
          return [self signalForSearchWithText:text];
